@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Elshop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo"><a href="index.html">Elshop</a></div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="cart.html">Cart</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h2>Din Handlekurv</h2>
+        
+        <div class="cart-content">
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Produkt</th>
+                        <th>Pris</th>
+                        <th>Antall</th>
+                        <th>Totalt</th>
+                        <th>Handling</th>
+                    </tr>
+                </thead>
+                <tbody id="cart-items">
+                    <!-- Cart items will go here -->
+                </tbody>
+            </table>
+
+            <div class="cart-summary">
+                <h3>Ordresammendrag</h3>
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">Kr 0,-</span>
+                </div>
+                <div class="summary-row">
+                    <span>Frakt:</span>
+                    <span id="shipping">Kr 0,-</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Totalt:</span>
+                    <span id="total">Kr 0,-</span>
+                </div>
+                <button class="checkout-btn">Gå til kassen</button>
+            </div>
+        </div>
+
+        <a href="products.html" class="continue-shopping">← Fortsett shopping</a>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="about">
+                <h4>Om Elshop</h4>
+                <p>Elshop tilbyr elektroniske komponenter og utstyr for hobbyister og profesjonelle.</p>
+            </div>
+            <div class="links">
+                <h4>Hurtiglenker</h4>
+                <a href="#">Produkter</a>
+                <a href="#">Kundeservice</a>
+                <a href="#">Vilkår</a>
+            </div>
+            <div class="contact">
+                <h4>Kontakt</h4>
+                <p>E-post: support@elshop.example</p>
+                <p>Telefon: +47 12 34 56 78</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
