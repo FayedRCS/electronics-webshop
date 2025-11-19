@@ -9,6 +9,8 @@ function addToCart(productName, price) {
     console.log(cart);
 }
 
+
+// Alle "Legg i handlekurv" buttons kaller addToCart-function
 document.addEventListener('DOMContentLoaded', function() {
     const buttons = document.querySelectorAll('.product-card button');
     
@@ -18,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const productName = productCard.querySelector('h3').textContent;
             const productPrice = productCard.querySelector('.price').textContent;
             
-            // Extract just the number from "Kr 5,-"
+            // RegEx tar kun tall fra pris, ingen andre symboler
             const price = parseInt(productPrice.match(/\d+/)[0]);
             
             addToCart(productName, price);

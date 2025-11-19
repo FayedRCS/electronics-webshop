@@ -21,8 +21,38 @@
     </nav>
 
     <div class="container">
-        <h2>Kontaktinformasjon:</h2>
-        <p>Fayed Rana ;) Bare kontakt meg, du vet hvor!</p>
+        <h2>Kontakt Oss</h2>
+        <p>Har du spørsmål eller tilbakemeldinger? Send oss en melding og vi svarer så fort som mulig.</p>
+        
+        <div class="contact-section">
+            <div class="contact-info">
+                <h3>Kontaktinformasjon</h3>
+                <p><strong>E-post:</strong> support@elshop.example</p>
+                <p><strong>Telefon:</strong> +47 12 34 56 78</p>
+                <p><strong>Adresse:</strong> Elektronikkveien 42, 0123 Oslo</p>
+                <p><strong>Åpningstider:</strong> Mnd-Fre: 09:00-17:00</p>
+            </div>
+
+            <form class="contact-form">
+                <div class="form-group">
+                    <label for="name">Navn:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-post:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Emne:</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Melding:</label>
+                    <textarea id="message" name="message" rows="6" required></textarea>
+                </div>
+                <button type="submit" class="contact-submit">Send Melding</button>
+            </form>
+        </div>
     </div>
 
 
