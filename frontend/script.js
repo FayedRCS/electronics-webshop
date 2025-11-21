@@ -27,3 +27,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+
+fetch("http://127.0.0.1:5000/api/products")
+    .then(response => response.json())
+    .then(products => {
+        console.log("Products from API:", products);
+    })
+
+    .catch(error => {
+        console.error("Error fetching products:", error);
+    })
