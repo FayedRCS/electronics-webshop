@@ -1,10 +1,14 @@
 from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
 import sqlite3
+import os
 
 
 app = Flask(__name__)
 CORS(app)
+
+# absolute path for frontend dir
+frontend_folder = os.path.join(os.path.dirname(__file__), '..', 'frontend')
 
 # API enpoint for å hente alle produkter
 @app.route("/api/products")
@@ -56,14 +60,23 @@ def get_product(product_id): #enestående produkt
     return jsonify(product)
 
 #serve frontend filer
-
-@app.route("/")
-def serve_index():
-    return send_from_directory("../frontend", "index.html")
-
+@app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
-def serve_static(path):
-    return send_from_directory("/frontend", path)
+def serve_frontend(path):
+    if path == "":
+        path = "index.html"
+
+    if path.startswith("api/"):
+        return jsonify({"error": "Not found"}), 404
+    
+    try:
+        return send_from_directory(frontend_folder, path)
+    except:
+        return send_from_directory(frontend_folder, "index.html")
+
+##@app.route("/<path:path>")
+##def serve_static(path):
+##    return send_from_directory("/frontend", path)
 
 if __name__ == "__main__":
     app.run(debug=True)
