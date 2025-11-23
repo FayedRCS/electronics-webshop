@@ -30,11 +30,46 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 fetch("http://127.0.0.1:5000/api/products")
-    .then(response => response.json())
-    .then(products => {
-        console.log("Products from API:", products);
+.then(response => response.json())
+.then(products => {
+    console.log("Products from API:", products);
+})
+
+.catch(error => {
+    console.error("Error fetching products:", error);
     })
 
-    .catch(error => {
-        console.error("Error fetching products:", error);
-    })
+    
+    function loadProducts() {
+        fetch('http://127.0.0.1:5000/api/products')
+        .then(response => response.json())
+        .then(products => {
+            const container = document.getElementById('products-container');
+            container.innerHTML = '';
+            
+            products.forEach(product => {
+                const productCard = `
+                <div class="product-card">
+                <h3>${product.name}</h3>
+                <p>High quality component</p>
+                <div class="price">Kr ${product.price},-</div>
+                <button class="product-card">Legg i kurv</button>
+                </div>
+                `;
+                
+                container.innerHTML += productCard;
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading products:', error);
+                    document.getElementById('products-container').innerHTML = 
+                '<p>Could not load products. Please try again later.</p>';
+            });
+        }
+        
+// Laster in produkter når siden er lastet inn
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.getElementById('products-container')) {
+        loadProducts();
+    }
+});
