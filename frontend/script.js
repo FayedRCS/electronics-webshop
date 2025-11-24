@@ -53,7 +53,7 @@ fetch("http://127.0.0.1:5000/api/products")
                 <h3>${product.name}</h3>
                 <p>High quality component</p>
                 <div class="price">Kr ${product.price},-</div>
-                <button class="product-card">Legg i kurv</button>
+                <button>Legg i kurv</button>
                 </div>
                 `;
                 
