@@ -28,7 +28,8 @@ def get_products():
             "id": row[0],
             "name": row[1],
             "price": row[2],
-            "stock": row[3]
+            "stock": row[3],
+            "img_url": row[4] if len(row) > 4 else None # NB!! Koden knuses hvis flere tabeller legges til i products db !!
         }
     
         products.append(product)
@@ -55,6 +56,7 @@ def get_product(product_id): #enestående produkt
         "name": row[1],
         "price": row[2],
         "stock": row[3],
+        "img_url": row[4] if len(row) > 4 else None
     }
 
     return jsonify(product)
