@@ -2,3 +2,5 @@ venv/
 __pycache__/
 
 store.db
+
+notes.txt
