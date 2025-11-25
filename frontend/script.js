@@ -28,20 +28,19 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-
+// fetch for å printe ut JSON av produktene... Glemte hvorfor dette er her... error handling?
 fetch("http://127.0.0.1:5000/api/products")
 .then(response => response.json())
 .then(products => {
     console.log("Products from API:", products);
 })
-
 .catch(error => {
     console.error("Error fetching products:", error);
     })
 
     
     function loadProducts() {
-        fetch('http://127.0.0.1:5000/api/products')
+        fetch('http://127.0.0.1:5000/api/products') // produkt fetch, produktkort genereres og legges inn i container
         .then(response => response.json())
         .then(products => {
             const container = document.getElementById('products-container');
@@ -50,6 +49,7 @@ fetch("http://127.0.0.1:5000/api/products")
             products.forEach(product => {
                 const productCard = `
                 <div class="product-card">
+                <img src="${product.image_url}" alt="${product.name}">
                 <h3>${product.name}</h3>
                 <p>High quality component</p>
                 <div class="price">Kr ${product.price},-</div>
@@ -59,7 +59,7 @@ fetch("http://127.0.0.1:5000/api/products")
                 
                 container.innerHTML += productCard;
                     });
-                })
+                }) // catch for bedre error håndtering
                 .catch(error => {
                     console.error('Error loading products:', error);
                     document.getElementById('products-container').innerHTML = 
@@ -67,7 +67,7 @@ fetch("http://127.0.0.1:5000/api/products")
             });
         }
         
-// Laster in produkter når siden er lastet inn
+// Laster inn produkter når siden er lastet inn
 document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('products-container')) {
         loadProducts();
