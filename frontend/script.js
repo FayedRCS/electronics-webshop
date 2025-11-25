@@ -49,7 +49,7 @@ fetch("http://127.0.0.1:5000/api/products")
             products.forEach(product => {
                 const productCard = `
                 <div class="product-card">
-                <img src="${product.image_url}" alt="${product.name}">
+                <img src="${product.img_url}" alt="${product.name}">
                 <h3>${product.name}</h3>
                 <p>High quality component</p>
                 <div class="price">Kr ${product.price},-</div>
