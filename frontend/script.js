@@ -83,7 +83,11 @@ function displayCart() {
         row.innerHTML = `
             <td>${item.name}</td>
             <td>Kr ${item.price},-</td>
-            <td>${item.quantity}</td>
+            <td>
+                <button class="qty-btn" data-id="${item.id}" data-action="decrease">-</button>
+                <span style="margin: 0 1rem;">${item.quantity}</span>
+                <button class="qty-btn" data-id="${item.id}" data-action="increase">+</button>
+            </td>
             <td>Kr ${itemTotal},-</td>
             <td><button class="remove-btn" data-id="${item.id}">Fjern</button></td>
         `;
