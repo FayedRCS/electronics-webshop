@@ -7,6 +7,13 @@ function saveCart() {
     localStorage.setItem("cart", JSON.stringify(cart));
 }
 
+// Fjern produkt fra handlekurv
+function removeFromCart(productId) {
+    cart = cart.filter(item => item.id !== productId);
+    saveCart();
+    displayCart(); // Oppdater visningen
+}
+
 function addToCart(product) {
     //finn existerende produkter
     const existingItem = cart.find(item => item.id === product.id)
@@ -26,6 +33,28 @@ function addToCart(product) {
    saveCart()
    alert(product.name + " lagt i handlekurven!")
    console.log("cart", cart)
+}
+
+// Endre antall av produkt
+function updateQuantity(productId, action) {
+    const item = cart.find(item => item.id === productId);
+    
+    if (!item) return;
+    
+    if (action === 'increase') {
+        item.quantity += 1;
+    } else if (action === 'decrease') {
+        item.quantity -= 1;
+        
+        // Hvis antall blir 0, fjern produktet
+        if (item.quantity <= 0) {
+            removeFromCart(productId);
+            return;
+        }
+    }
+    
+    saveCart();
+    displayCart();
 }
 
 // vis handlekurv
@@ -65,6 +94,25 @@ function displayCart() {
     // Oppdater totalene
     subtotalElement.textContent = `Kr ${total},-`;
     totalElement.textContent = `Kr ${total},-`;
+
+    // Legg til event listeners for fjern-knapper
+    const removeButtons = document.querySelectorAll('.remove-btn');
+    removeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = parseInt(this.getAttribute('data-id'));
+            removeFromCart(productId);
+        });
+    });
+
+    // Legg til event listeners for +/- knapper
+    const qtyButtons = document.querySelectorAll('.qty-btn');
+    qtyButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = parseInt(this.getAttribute('data-id'));
+            const action = this.getAttribute('data-action');
+            updateQuantity(productId, action);
+        });
+    });
 }
 
 function loadProducts() {
