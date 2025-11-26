@@ -1,75 +1,114 @@
-let cart = [];
+//const { createElement } = require("react");
 
-function addToCart(productName, price) {
-    cart.push({
-        name: productName,
-        price: price
-    });
-    alert(productName + " lagt i handlekurv!");
-    console.log(cart);
+// laster inn cart eller tom array
+let cart = JSON.parse(localStorage.getItem("cart")) || []; 
+
+function saveCart() {
+    localStorage.setItem("cart", JSON.stringify(cart));
 }
 
+function addToCart(product) {
+    //finn existerende produkter
+    const existingItem = cart.find(item => item.id === product.id)
 
-// Alle "Legg i handlekurv" buttons kaller addToCart-function
-document.addEventListener('DOMContentLoaded', function() {
-    const buttons = document.querySelectorAll('.product-card button');
-    
-    buttons.forEach(button => {
-        button.addEventListener('click', function() {
-            const productCard = button.closest('.product-card');
-            const productName = productCard.querySelector('h3').textContent;
-            const productPrice = productCard.querySelector('.price').textContent;
-            
-            // RegEx tar kun tall fra pris, ingen andre symboler
-            const price = parseInt(productPrice.match(/\d+/)[0]);
-            
-            addToCart(productName, price);
+    if (existingItem) {
+        existingItem.quantity += 1;
+   } else {
+        cart.push({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            img_url: product.img_url,
+            quantity: 1
         });
-    });
-});
+   }
 
-// fetch for å printe ut JSON av produktene... Glemte hvorfor dette er her... error handling?
-fetch("http://127.0.0.1:5000/api/products")
-.then(response => response.json())
-.then(products => {
-    console.log("Products from API:", products);
-})
-.catch(error => {
-    console.error("Error fetching products:", error);
-    })
+   saveCart()
+   alert(product.name + " lagt i handlekurven!")
+   console.log("cart", cart)
+}
 
-    
-    function loadProducts() {
-        fetch('http://127.0.0.1:5000/api/products') // produkt fetch, produktkort genereres og legges inn i container
-        .then(response => response.json())
-        .then(products => {
-            const container = document.getElementById('products-container');
-            container.innerHTML = '';
+function loadProducts() {
+    fetch('http://127.0.0.1:5000/api/products')
+    .then(response => response.json())
+    .then(products => {
+        const container = document.getElementById('products-container');
+        container.innerHTML = '';
+        
+        products.forEach(product => {
+            const productCard = document.createElement('div');
+            productCard.className = 'product-card';
             
-            products.forEach(product => {
-                const productCard = `
-                <div class="product-card">
+            productCard.innerHTML = `
                 <img src="${product.img_url}" alt="${product.name}">
                 <h3>${product.name}</h3>
                 <p>High quality component</p>
                 <div class="price">Kr ${product.price},-</div>
                 <button>Legg i kurv</button>
-                </div>
-                `;
-                
-                container.innerHTML += productCard;
-                    });
-                }) // catch for bedre error håndtering
-                .catch(error => {
-                    console.error('Error loading products:', error);
-                    document.getElementById('products-container').innerHTML = 
-                '<p>Could not load products. Please try again later.</p>';
+            `;
+            
+            // Attach click handler with full product data
+            const button = productCard.querySelector('button');
+            button.addEventListener('click', function() {
+                addToCart(product);
             });
-        }
-        
+            
+            container.appendChild(productCard);
+                });
+            }) 
+            // catch for bedre error håndtering
+            .catch(error => {
+                console.error('Error loading products:', error);
+                document.getElementById('products-container').innerHTML = 
+            '<p>Could not load products. Please try again later.</p>';
+            });
+}
+
+function loadRandoms() {
+    fetch("http://127.0.0.1:5000/api/products")
+    .then(results => results.json())
+    .then(products => {
+        const randomShuffle = products.sort(() => 0.5 - Math.random()); //random tall fra -0.5 & 0.5
+        const popularProds = randomShuffle.slice(0,4); //slice kun de første 4 fra liste
+
+        const container = document.getElementById("popular-products");
+        container.innerHTML = "";
+
+
+        popularProds.forEach(product => {
+            const productCard = document.createElement("div")
+            product.className = "product-card"
+
+            productCard.innerHTML = `
+            <img src="${product.img_url}" alt="${product.name}">
+            <h3>${product.name}</h3>
+            <p>Classic</p> 
+            <div class="price">Kr ${product.price} ,-</div>
+            <button>Legg i kurv</button>
+            `;
+            
+        //button funksjonalitet 
+        const button = productCard.querySelector("button");
+        button.addEventListener("click", function() {
+            addToCart(product);
+        });
+
+        container.appendChild(productCard)
+        });
+    })
+
+    .catch(error => {
+        console.error("Error loading popular products:", error);
+    });
+}
+       
 // Laster inn produkter når siden er lastet inn
 document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('products-container')) {
         loadProducts();
+    }
+
+    if (document.getElementById("popular-products")) {
+        loadRandoms();
     }
 });
