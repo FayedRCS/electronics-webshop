@@ -28,6 +28,45 @@ function addToCart(product) {
    console.log("cart", cart)
 }
 
+// vis handlekurv
+function displayCart() {
+    const cartItemsContainer = document.getElementById("cart-items");
+    const subtotalElement = document.getElementById("subtotal");
+    const totalElement = document.getElementById("total");
+
+    if (cart.length === 0) {
+        cartItemsContainer.innerHTML = "<tr><td colspan='5' style='text-align: center;'>Handlekurven er tom</td></tr>";
+        subtotalElement.innerHTML = "Kr 0,-"
+        totalElement.innerHTML = "Kr 0,-"
+        return;
+    }
+
+    cartItemsContainer.innerHTML = "";
+
+    let total = 0;
+
+    // lager en rad for hvert produkt
+    cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${item.name}</td>
+            <td>Kr ${item.price},-</td>
+            <td>${item.quantity}</td>
+            <td>Kr ${itemTotal},-</td>
+            <td><button class="remove-btn" data-id="${item.id}">Fjern</button></td>
+        `;
+
+        cartItemsContainer.appendChild(row);
+
+    });
+    // Oppdater totalene
+    subtotalElement.textContent = `Kr ${total},-`;
+    totalElement.textContent = `Kr ${total},-`;
+}
+
 function loadProducts() {
     fetch('http://127.0.0.1:5000/api/products')
     .then(response => response.json())
@@ -110,5 +149,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (document.getElementById("popular-products")) {
         loadRandoms();
+    }
+
+    //last inn handlekurv
+    if (document.getElementById("cart-items")) {
+        displayCart()
     }
 });
