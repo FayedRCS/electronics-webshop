@@ -77,7 +77,7 @@ function loadRandoms() {
 
         popularProds.forEach(product => {
             const productCard = document.createElement("div")
-            product.className = "product-card"
+            productCard.className = "product-card"
 
             productCard.innerHTML = `
             <img src="${product.img_url}" alt="${product.name}">
